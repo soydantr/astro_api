@@ -50,7 +50,8 @@ def get_coords(place):
         lat = float(data[0]['lat'])
         lon = float(data[0]['lon'])
         return lat, lon
-    except:
+    except Exception as e:
+        print(f"Hata: {e}")
         return None
 
 def get_utc_offset(lat, lon, timestamp):
@@ -67,7 +68,8 @@ def get_utc_offset(lat, lon, timestamp):
         response = requests.get(url, params=params, timeout=5)
         data = response.json()
         return data.get('gmtOffset', 0) / 3600
-    except:
+    except Exception as e:
+        print(f"Hata: {e}")
         return 0
 
 def get_julian_day(dt):
@@ -189,4 +191,4 @@ def calculate_full_astro():
         return jsonify({'error': 'Sunucu hatası', 'detail': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
